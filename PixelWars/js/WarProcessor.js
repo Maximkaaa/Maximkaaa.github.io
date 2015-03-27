@@ -22,10 +22,10 @@ define(['Pixel'], function(Pixel) {
     };
 
     WarProcessor.prototype = {
-        tact: 500,
+        tact: 200,
         xn: 100,
         yn: 100,
-        inactiveN: 300,
+        inactiveN: 500,
 
         _processTact: function() {
             this._visualizer.draw(this._pixels);
@@ -42,7 +42,7 @@ define(['Pixel'], function(Pixel) {
         _killInactiveUsers: function() {
             for (var i = this._users.length - 1; i >= 0; i--) {
                 var user = this._users[i];
-                if (user.worker && !user.worker.responded) {
+                if (user.worker && !user.worker.responded || user.length === 0) {
                     user.worker.terminate();
 
                     for (var j = 0; j < user.length; j++) {
