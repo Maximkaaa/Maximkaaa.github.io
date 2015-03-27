@@ -25,7 +25,7 @@ function main() {
         } else {
             var direction = targetAt.direction;
             targetAt = {};
-            return 'd' + direction;
+            return 'w' + direction;
         }
     } else {
         if (counter < 3) {

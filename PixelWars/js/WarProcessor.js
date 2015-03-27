@@ -147,7 +147,10 @@ define(['Pixel'], function(Pixel) {
             if (index !== -1) this._pixels.splice(index, 1);
 
             index = this._activePixels.indexOf(pixel);
-            if (index !== -1) this._killPixel(pixel);
+            if (index !== -1) {
+                this._killPixel(pixel);
+                this._activePixels.splice(index, 1);
+            }
 
             this._removeFromIndex(pixel);
         }
@@ -182,7 +185,12 @@ define(['Pixel'], function(Pixel) {
         w: function(wp, p, d) {
             var pixel = wp._getPixelAt(p.x + d.x, p.y + d.y);
             if (pixel) {
-
+                pixel.color = p.color;
+                pixel.main = p.main;
+                if (!pixel.active) {
+                    pixel.active = true;
+                    wp._activePixels.push(pixel);
+                }
             }
         }
     };
