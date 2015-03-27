@@ -1,7 +1,19 @@
 onmessage = function(e){
 
-    var thisObject= e.data;
-    postMessage(main.call(thisObject));
+    var messages = e.data;
+    var responses = [];
+    for (var i = 0; i < messages.length; i++) {
+        var response;
+        try {
+            response = main.call(messages[i]);
+        } catch (e) {
+            response = e;
+        }
+
+        responses.push(response);
+    }
+
+    postMessage(responses);
 };
 
 var counter = 0;

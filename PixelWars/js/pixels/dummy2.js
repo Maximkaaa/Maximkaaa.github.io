@@ -1,38 +1,64 @@
+var contexts = [];
+
 onmessage = function(e){
 
-    var thisObject= e.data;
-    postMessage(main.call(thisObject));
+    var messages = e.data;
+
+    var responses = [];
+    for (var i = 0; i < messages.length; i++) {
+        for (var j = 0; j < contexts.length; j++) {
+            if (contexts[j].id === messages[i].id) {
+                for (var key in contexts[j]) {
+                    if (contexts[j].hasOwnProperty(key) && messages[i][key] === undefined) {
+                        messages[i][key] = contexts[j][key];
+                    }
+                }
+            }
+        }
+
+        var response;
+        try {
+            response = main.call(messages[i]);
+        } catch (e) {
+            response = e;
+        }
+
+        responses.push(response);
+    }
+
+    contexts = messages;
+
+    postMessage(responses);
 };
 
-var counter = -1;
 var directions = ['y-', 'x', 'y', 'x-'];
-
-var targetAt = {};
-
 function main() {
+    if (this.counter === undefined) this.counter = -1;
+    if (this.targetAt === undefined) this.targetAt = {};
+
     if (this.s2 && this.s2.distance < 20) {
         console.dir(this.s2);
-        targetAt = {
-            direction: directions[counter],
+        this.targetAt = {
+            direction: directions[this.counter],
             distance: this.s2.distance
         };
     }
 
-    if (targetAt.direction) {
-        if (targetAt.distance > 1) {
-            targetAt.distance--;
-            return 'm' + targetAt.direction;
+    if (this.targetAt.direction) {
+        if (this.targetAt.distance > 1) {
+            this.targetAt.distance--;
+            return 'm' + this.targetAt.direction;
         } else {
-            var direction = targetAt.direction;
-            targetAt = {};
+            var direction = this.targetAt.direction;
+            this.targetAt = {};
             return 'w' + direction;
         }
     } else {
-        if (counter < 3) {
-            counter++;
-            return 's' + directions[counter];
+        if (this.counter < 3) {
+            this.counter++;
+            return 's' + directions[this.counter];
         } else {
-            counter = -1;
+            this.counter = -1;
             return 'mx';
         }
     }

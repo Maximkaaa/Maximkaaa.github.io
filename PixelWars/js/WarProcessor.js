@@ -3,6 +3,7 @@ define(['Pixel'], function(Pixel) {
     var WarProcessor = function(visualizer, pixels) {
         this._visualizer = visualizer;
 
+        this._users = [];
         this._pixels = [];
         this._activePixels = [];
         this._pixelIndex = [];
@@ -24,12 +25,12 @@ define(['Pixel'], function(Pixel) {
         tact: 500,
         xn: 100,
         yn: 100,
-        inactiveN: 100,
+        inactiveN: 300,
 
         _processTact: function() {
             this._visualizer.draw(this._pixels);
 
-            this._killPixels();
+            this._killInactiveUsers();
             this._processPixelCommands();
 
             var self = this;
@@ -38,25 +39,33 @@ define(['Pixel'], function(Pixel) {
             }, this.tact);
         },
 
-        _killPixels: function() {
-            for (var i = this._activePixels.length - 1; i >= 0; i--) {
-                var pixel = this._activePixels[i];
-                if (pixel.worker && !pixel.worker.responded) {
-                    this._killPixel(pixel, i);
+        _killInactiveUsers: function() {
+            for (var i = this._users.length - 1; i >= 0; i--) {
+                var user = this._users[i];
+                if (user.worker && !user.worker.responded) {
+                    user.worker.terminate();
+
+                    for (var j = 0; j < user.length; j++) {
+                        this._killPixel(user[j]);
+                    }
+
+                    this._users.splice(i, 1);
                 }
             }
         },
 
-        _killPixel: function(pixel, i) {
-            pixel.worker.terminate();
-            delete pixel.worker;
-            this._activePixels.splice(i, 1);
-
-            pixel.active = false;
+        _killPixel: function(pixel) {
+            var index = this._activePixels.indexOf(pixel);
+            if (index !== -1) {
+                this._activePixels.splice(index, 1);
+                pixel.active = false;
+            }
         },
 
         _setActivePixels: function(pixels) {
             for (var i = 0; i < pixels.length; i++) {
+                this._users.push([pixels[i]]);
+                this._users[i].main = pixels[i].main;
                 this._pixels.push(pixels[i]);
                 this._activePixels.push(pixels[i]);
 
@@ -106,33 +115,51 @@ define(['Pixel'], function(Pixel) {
 
         _processPixelCommands: function() {
             var self = this;
-            for (var i = 0; i < this._activePixels.length; i++) {
-                var pixel = this._activePixels[i];
-                if (!pixel.worker) {
-                    pixel.worker = new Worker(pixel.main);
+            for (var i = 0; i < this._users.length; i++) {
+                var user = this._users[i];
+                if (!user.worker) {
+                    user.worker = new Worker(user.main);
 
-                    pixel.worker.onmessage = function(pixel, e) {
+                    user.worker.onmessage = function(user, e) {
                         this.responded = true;
-                        var command = e.data;
-                        self._processCommand(pixel, command);
-                    }.bind(pixel.worker, pixel);
+                        var commands = e.data;
+                        self._processUserCommands(user, commands);
+                    }.bind(user.worker, user);
                 }
 
-                var worker = pixel.worker;
+                var worker = user.worker;
 
                 if (worker) {
                     worker.responded = false;
-                    worker.postMessage({x: pixel.x, y: pixel.y, s1: this._getS1(pixel), s2: pixel.s2});
-                    pixel.s2 = null;
+
+                    var message = [];
+                    for (var j = 0; j < user.length; j++) {
+                        var pixel = user[j];
+                        message.push({id: pixel.id, x: pixel.x, y: pixel.y, s1: this._getS1(pixel), s2: pixel.s2});
+                        pixel.s2 = null;
+                    }
+
+                    worker.postMessage(message);
                 }
             }
         },
 
-        _processCommand: function(pixel, command) {
+        _processUserCommands: function(user, commands) {
+            var pixels = user.slice();
+            for (var i = 0; i < pixels.length; i++) {
+                if (commands[i] instanceof Error) {
+                    this._killPixel(pixels[i]);
+                } else {
+                    this._processCommand(pixels[i], commands[i], user);
+                }
+            }
+        },
+
+        _processCommand: function(pixel, command, user) {
             var operation = command.charAt(0);
             if (commands[operation]) {
                 var direction = getDirection(command.slice(1));
-                if (direction) commands[operation](this, pixel, direction);
+                if (direction) commands[operation](this, pixel, direction, user);
             }
         },
 
@@ -182,7 +209,7 @@ define(['Pixel'], function(Pixel) {
                 }
             }
         },
-        w: function(wp, p, d) {
+        w: function(wp, p, d, user) {
             var pixel = wp._getPixelAt(p.x + d.x, p.y + d.y);
             if (pixel) {
                 pixel.color = p.color;
@@ -190,6 +217,11 @@ define(['Pixel'], function(Pixel) {
                 if (!pixel.active) {
                     pixel.active = true;
                     wp._activePixels.push(pixel);
+                }
+
+                var index = user.indexOf(pixel);
+                if (index === -1) {
+                    user.push(pixel);
                 }
             }
         }
