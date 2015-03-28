@@ -1,16 +1,13 @@
-define(['Pixel'], function(Pixel) {
+define(['Pixel', 'OnlineWorker'], function(Pixel, OnlineWorker) {
 
     var WarProcessor = function(visualizer, pixels) {
         this._visualizer = visualizer;
 
         this._users = [];
         this._pixels = [];
-        this._activePixels = [];
         this._pixelIndex = [];
 
         this._setActivePixels(pixels);
-        //this._pixels = pixels.slice();
-        //this._activePixels = pixels.slice();
 
         this._setInactivePixels();
 
@@ -22,7 +19,7 @@ define(['Pixel'], function(Pixel) {
     };
 
     WarProcessor.prototype = {
-        tact: 200,
+        tact: 300,
         xn: 100,
         yn: 100,
         inactiveN: 500,
@@ -48,26 +45,30 @@ define(['Pixel'], function(Pixel) {
                     for (var j = 0; j < user.length; j++) {
                         this._killPixel(user[j]);
                     }
-
-                    this._users.splice(i, 1);
                 }
             }
         },
 
         _killPixel: function(pixel) {
-            var index = this._activePixels.indexOf(pixel);
-            if (index !== -1) {
-                this._activePixels.splice(index, 1);
-                pixel.active = false;
+            for (var i = 0; i < this._users.length; i ++) {
+                var index = this._users[i].indexOf(pixel);
+                if (index !== -1) {
+                    this._users[i].splice(index, 1);
+                    pixel.active = false;
+                }
+
             }
         },
 
         _setActivePixels: function(pixels) {
             for (var i = 0; i < pixels.length; i++) {
                 this._users.push([pixels[i]]);
-                this._users[i].main = pixels[i].main;
+                if (pixels[i].url) {
+                    this._users[i].url = pixels[i].url;
+                } else {
+                    this._users[i].main = pixels[i].main;
+                }
                 this._pixels.push(pixels[i]);
-                this._activePixels.push(pixels[i]);
 
                 this._addToIndex(pixels[i]);
             }
@@ -118,7 +119,11 @@ define(['Pixel'], function(Pixel) {
             for (var i = 0; i < this._users.length; i++) {
                 var user = this._users[i];
                 if (!user.worker) {
-                    user.worker = new Worker(user.main);
+                    if (user.url) {
+                        user.worker = new OnlineWorker(user.url);
+                    } else {
+                        user.worker = new Worker(user.main);
+                    }
 
                     user.worker.onmessage = function(user, e) {
                         this.responded = true;
@@ -147,7 +152,7 @@ define(['Pixel'], function(Pixel) {
         _processUserCommands: function(user, commands) {
             var pixels = user.slice();
             for (var i = 0; i < pixels.length; i++) {
-                if (commands[i] instanceof Error) {
+                if (!commands || commands[i] instanceof Error) {
                     this._killPixel(pixels[i]);
                 } else {
                     this._processCommand(pixels[i], commands[i], user);
@@ -159,26 +164,28 @@ define(['Pixel'], function(Pixel) {
             var operation = command.charAt(0);
             if (commands[operation]) {
                 var direction = getDirection(command.slice(1));
-                if (direction) commands[operation](this, pixel, direction, user);
+                if (direction) {
+                    commands[operation](this, pixel, direction, user);
+                    pixel.direction = direction;
+                }
             }
         },
 
         _getS1: function(pixel) {
             var x = pixel.x;
             var y = pixel.y;
-            return [this._getPixelIdAt(x, y-1), this._getPixelIdAt(x+1,y), this._getPixelIdAt(x,y+1), this._getPixelIdAt(x-1,y)];
+            var d = pixel.direction || {x: 0, y: -1};
+            for (var i = 1; i < 3; i++) {
+                var id = this._getPixelIdAt(x + d.x * i, y + d.y * i);
+                if (id !== null) return id;
+            }
+            return null;
         },
 
         _removePixel: function(pixel) {
             var index = this._pixels.indexOf(pixel);
             if (index !== -1) this._pixels.splice(index, 1);
-
-            index = this._activePixels.indexOf(pixel);
-            if (index !== -1) {
-                this._killPixel(pixel);
-                this._activePixels.splice(index, 1);
-            }
-
+            this._killPixel(pixel);
             this._removeFromIndex(pixel);
         }
     };
@@ -193,9 +200,12 @@ define(['Pixel'], function(Pixel) {
             }
         },
         d: function(wp, p, d) {
-            var pixel = wp._getPixelAt(p.x + d.x, p.y + d.y);
-            if (pixel) {
-                wp._removePixel(pixel);
+            for (var i = 1; i < 3; i++) {
+                var pixel = wp._getPixelAt(p.x + d.x * i, p.y + d.y * i);
+                if (pixel) {
+                    wp._removePixel(pixel);
+                    return;
+                }
             }
         },
         s: function(wp, p, d) {
@@ -212,17 +222,13 @@ define(['Pixel'], function(Pixel) {
         w: function(wp, p, d, user) {
             var pixel = wp._getPixelAt(p.x + d.x, p.y + d.y);
             if (pixel) {
+                wp._killPixel(pixel);
+
                 pixel.color = p.color;
                 pixel.main = p.main;
-                if (!pixel.active) {
-                    pixel.active = true;
-                    wp._activePixels.push(pixel);
-                }
+                pixel.active = true;
 
-                var index = user.indexOf(pixel);
-                if (index === -1) {
-                    user.push(pixel);
-                }
+                user.push(pixel);
             }
         }
     };

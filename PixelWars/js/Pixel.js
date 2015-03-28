@@ -10,6 +10,7 @@ define(function() {
         this.y = parameters.y;
         this.color = parameters.color;
         this.id = getId();
+        this.url = parameters.url;
 
         if (parameters.main) this.main = parameters.main;
     };

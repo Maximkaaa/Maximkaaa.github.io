@@ -1,35 +1,37 @@
-var contexts = [];
+(function() {
+    var contexts = [];
 
-onmessage = function(e){
+    onmessage = function (e) {
 
-    var messages = e.data;
+        var messages = e.data;
 
-    var responses = [];
-    for (var i = 0; i < messages.length; i++) {
-        for (var j = 0; j < contexts.length; j++) {
-            if (contexts[j].id === messages[i].id) {
-                for (var key in contexts[j]) {
-                    if (contexts[j].hasOwnProperty(key) && messages[i][key] === undefined) {
-                        messages[i][key] = contexts[j][key];
+        var responses = [];
+        for (var i = 0; i < messages.length; i++) {
+            for (var j = 0; j < contexts.length; j++) {
+                if (contexts[j].id === messages[i].id) {
+                    for (var key in contexts[j]) {
+                        if (contexts[j].hasOwnProperty(key) && messages[i][key] === undefined) {
+                            messages[i][key] = contexts[j][key];
+                        }
                     }
                 }
             }
+
+            var response;
+            try {
+                response = main.call(messages[i]);
+            } catch (e) {
+                response = e;
+            }
+
+            responses.push(response);
         }
 
-        var response;
-        try {
-            response = main.call(messages[i]);
-        } catch (e) {
-            response = e;
-        }
+        contexts = messages;
 
-        responses.push(response);
-    }
-
-    contexts = messages;
-
-    postMessage(responses);
-};
+        postMessage(responses);
+    };
+})();
 
 var directions = ['y-', 'x', 'y', 'x-'];
 function main() {
@@ -37,7 +39,6 @@ function main() {
     if (this.targetAt === undefined) this.targetAt = {};
 
     if (this.s2 && this.s2.distance < 20) {
-        console.dir(this.s2);
         this.targetAt = {
             direction: directions[this.counter],
             distance: this.s2.distance
