@@ -1,0 +1,9 @@
+.logo {
+    display: inline-block;
+    background-image: url(http://www.giantkillerrobot.com/wp-content/uploads/2013/05/GKR_130614-1024x682.jpg);
+    background-size: 100%;
+}
+
+.gearButton .webix_image {
+    background-size: 100%;
+}
