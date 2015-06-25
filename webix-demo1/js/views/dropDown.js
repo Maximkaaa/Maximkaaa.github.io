@@ -10,7 +10,7 @@
     var dropDown = {
         id: 'dropDown',
         view: 'context',
-        width: 120,
+        width: 160,
         body: {
             id: 'dropDownMenu',
             view: 'menu',
