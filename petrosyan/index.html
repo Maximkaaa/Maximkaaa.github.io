@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Selection test</title>
+
+    <style>
+        #wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        svg rect {
+            fill: #c0c0c0;
+        }
+
+        svg rect.active {
+            stroke: yellow;
+            stroke-width: 1px;
+        }
+
+        .selection {
+            position: absolute;
+            border: 1px solid #89B;
+            background: #BCE;
+            background-color: #BEC;
+            border-color: #8B9;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+<h1>Selection Test</h1>
+
+<div style="position: relative; width: 500px; height: 350px;">
+    <div id="wrapper">
+        <svg width="100%" height="100%" viewBox="0 0 425 300" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <rect x="140.753" y="245.865" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.8,143.253,248.365)" />
+                <rect x="147.627" y="246.64" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.1,150.127,249.14)" />
+                <rect x="154.511" y="247.333" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.4,157.011,249.833)" />
+                <rect x="161.402" y="247.946" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(4.7,163.902,250.446)" />
+                <rect x="168.299" y="248.478" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(4.1,170.799,250.978)" />
+                <rect x="175.206" y="248.928" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(3.4,177.706,251.428)" />
+                <rect x="182.114" y="249.297" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(2.7,184.614,251.797)" />
+                <rect x="189.026" y="249.584" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(2,191.526,252.084)" />
+                <rect x="195.941" y="249.79" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(1.4,198.441,252.29)" />
+                <rect x="202.861" y="249.914" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(0.7,205.361,252.414)" />
+                <rect x="209.778" y="249.957" width="5" height="5" rx="0.7" ry="0.7" />
+                <rect x="216.696" y="249.919" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-0.7,219.196,252.419)" />
+                <rect x="223.616" y="249.799" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-1.3,226.116,252.299)" />
+                <rect x="230.53" y="249.597" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-2,233.03,252.097)" />
+                <rect x="237.442" y="249.314" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-2.7,239.942,251.814)" />
+                <rect x="244.353" y="248.95" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-3.4,246.853,251.45)" />
+                <rect x="251.256" y="248.504" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4,253.756,251.004)" />
+                <rect x="258.156" y="247.977" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.7,260.656,250.477)" />
+                <rect x="265.047" y="247.369" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-5.4,267.547,249.869)" />
+                <rect x="271.933" y="246.679" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.1,274.433,249.179)" />
+                <rect x="278.807" y="245.909" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.7,281.307,248.409)" />
+                <rect x="139.113" y="258.404" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.8,141.613,260.904)" />
+                <rect x="145.815" y="259.165" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.1,148.315,261.665)" />
+                <rect x="152.526" y="259.849" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.5,155.026,262.349)" />
+                <rect x="159.247" y="260.459" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(4.9,161.747,262.959)" />
+                <rect x="165.972" y="260.993" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(4.2,168.472,263.493)" />
+                <rect x="172.701" y="261.451" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(3.6,175.201,263.951)" />
+                <rect x="179.439" y="261.834" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(2.9,181.939,264.334)" />
+                <rect x="186.178" y="262.141" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(2.3,188.678,264.641)" />
+                <rect x="192.919" y="262.372" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(1.6,195.419,264.872)" />
+                <rect x="199.666" y="262.527" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(1,202.166,265.027)" />
+                <rect x="206.41" y="262.606" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(0.4,208.91,265.106)" />
+                <rect x="213.159" y="262.61" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-0.3,215.659,265.11)" />
+                <rect x="219.903" y="262.537" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-0.9,222.403,265.037)" />
+                <rect x="226.65" y="262.39" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-1.6,229.15,264.89)" />
+                <rect x="233.394" y="262.165" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-2.2,235.894,264.665)" />
+                <rect x="240.132" y="261.865" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-2.9,242.632,264.365)" />
+                <rect x="246.87" y="261.489" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-3.5,249.37,263.989)" />
+                <rect x="253.599" y="261.038" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.2,256.099,263.538)" />
+                <rect x="260.327" y="260.511" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.8,262.827,263.011)" />
+                <rect x="267.047" y="259.908" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-5.4,269.547,262.408)" />
+                <rect x="273.758" y="259.231" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.1,276.258,261.731)" />
+                <rect x="280.463" y="258.477" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.7,282.963,260.977)" />
+                <rect x="137.48" y="270.944" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.8,139.98,273.444)" />
+                <rect x="144.027" y="271.691" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(6.2,146.527,274.191)" />
+                <rect x="150.58" y="272.367" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.6,153.08,274.867)" />
+                <rect x="157.142" y="272.974" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5,159.642,275.474)" />
+                <rect x="163.711" y="273.51" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(4.4,166.211,276.01)" />
+                <rect x="170.284" y="273.975" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(3.7,172.784,276.475)" />
+                <rect x="176.86" y="274.368" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(3.1,179.36,276.868)" />
+                <rect x="183.444" y="274.692" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(2.5,185.944,277.192)" />
+                <rect x="190.027" y="274.944" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(1.9,192.527,277.444)" />
+                <rect x="196.613" y="275.127" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(1.3,199.113,277.627)" />
+                <rect x="203.203" y="275.238" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(0.7,205.703,277.738)" />
+                <rect x="209.791" y="275.278" width="5" height="5" rx="0.7" ry="0.7" />
+                <rect x="216.382" y="275.247" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-0.6,218.882,277.747)" />
+                <rect x="222.969" y="275.145" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-1.2,225.469,277.645)" />
+                <rect x="229.558" y="274.973" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-1.8,232.058,277.473)" />
+                <rect x="236.141" y="274.73" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-2.4,238.641,277.23)" />
+                <rect x="242.724" y="274.415" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-3,245.224,276.915)" />
+                <rect x="249.304" y="274.03" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-3.7,251.804,276.53)" />
+                <rect x="255.876" y="273.575" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.3,258.376,276.075)" />
+                <rect x="262.445" y="273.048" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.9,264.945,275.548)" />
+                <rect x="269.009" y="272.451" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-5.5,271.509,274.951)" />
+                <rect x="275.562" y="271.784" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.1,278.062,274.284)" />
+                <rect x="282.111" y="271.046" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.7,284.611,273.546)" />
+                <rect x="303.018" y="242.224" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.3,305.518,244.724)" />
+                <rect x="309.222" y="241.62" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.8,311.722,244.12)" />
+                <rect x="315.397" y="240.737" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-9.4,317.897,243.237)" />
+                <rect x="321.523" y="239.569" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-12.1,324.023,242.069)" />
+                <rect x="327.585" y="238.111" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-14.9,330.085,240.611)" />
+                <rect x="333.569" y="236.352" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-17.8,336.069,238.852)" />
+                <rect x="339.454" y="234.287" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-20.9,341.954,236.787)" />
+                <rect x="345.217" y="231.909" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-24,347.717,234.409)" />
+                <rect x="350.842" y="229.212" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-27.3,353.342,231.712)" />
+                <rect x="356.296" y="226.193" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-30.7,358.796,228.693)" />
+                <rect x="306.184" y="254.311" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-4.5,308.684,256.811)" />
+                <rect x="312.473" y="253.688" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.8,314.973,256.188)" />
+                <rect x="318.731" y="252.808" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-9.2,321.231,255.308)" />
+                <rect x="324.947" y="251.665" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-11.6,327.447,254.165)" />
+                <rect x="331.106" y="250.255" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-14.2,333.606,252.755)" />
+                <rect x="337.199" y="248.57" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-16.8,339.699,251.07)" />
+                <rect x="343.206" y="246.607" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-19.5,345.706,249.107)" />
+                <rect x="349.109" y="244.359" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-22.2,351.609,246.859)" />
+                <rect x="354.899" y="241.82" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-25.1,357.399,244.32)" />
+                <rect x="360.546" y="238.989" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-28.1,363.046,241.489)" />
+                <rect x="366.036" y="235.859" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-31.3,368.536,238.359)" />
+                <rect x="309.345" y="266.402" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-4.7,311.845,268.902)" />
+                <rect x="315.703" y="265.763" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-6.8,318.203,268.263)" />
+                <rect x="322.034" y="264.886" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-9,324.534,267.386)" />
+                <rect x="328.322" y="263.766" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-11.2,330.822,266.266)" />
+                <rect x="334.563" y="262.398" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-13.5,337.063,264.898)" />
+                <rect x="340.743" y="260.778" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-15.9,343.243,263.278)" />
+                <rect x="346.85" y="258.901" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-18.3,349.35,261.401)" />
+                <rect x="352.871" y="256.762" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-20.8,355.371,259.262)" />
+                <rect x="358.789" y="254.359" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-23.4,361.289,256.859)" />
+                <rect x="364.593" y="251.685" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-26.1,367.093,254.185)" />
+                <rect x="370.262" y="248.739" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-28.8,372.762,251.239)" />
+                <rect x="375.779" y="245.519" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-31.7,378.279,248.019)" />
+                <rect x="62.665" y="225.301" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(30.9,65.165,227.801)" />
+                <rect x="68.046" y="228.311" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(27.6,70.546,230.811)" />
+                <rect x="73.587" y="231.013" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(24.4,76.087,233.513)" />
+                <rect x="79.267" y="233.411" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(21.4,81.767,235.911)" />
+                <rect x="85.064" y="235.509" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(18.4,87.564,238.009)" />
+                <rect x="90.957" y="237.313" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(15.6,93.457,239.813)" />
+                <rect x="96.934" y="238.83" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(12.9,99.434,241.33)" />
+                <rect x="102.972" y="240.065" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(10.2,105.472,242.565)" />
+                <rect x="109.064" y="241.025" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(7.7,111.564,243.525)" />
+                <rect x="115.19" y="241.716" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.2,117.69,244.216)" />
+                <rect x="53.085" y="234.903" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(31.5,55.585,237.403)" />
+                <rect x="58.48" y="238.013" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(28.5,60.98,240.513)" />
+                <rect x="64.031" y="240.842" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(25.6,66.531,243.342)" />
+                <rect x="69.715" y="243.391" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(22.8,72.215,245.891)" />
+                <rect x="75.514" y="245.664" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(20.1,78.014,248.164)" />
+                <rect x="81.413" y="247.666" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(17.4,83.913,250.166)" />
+                <rect x="87.396" y="249.399" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(14.9,89.896,251.899)" />
+                <rect x="93.449" y="250.87" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(12.4,95.949,253.37)" />
+                <rect x="99.561" y="252.083" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(10,102.061,254.583)" />
+                <rect x="105.712" y="253.043" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(7.7,108.212,255.543)" />
+                <rect x="111.902" y="253.756" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.4,114.402,256.256)" />
+                <rect x="43.5" y="244.497" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(31.9,46,246.997)" />
+                <rect x="48.91" y="247.691" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(29.2,51.41,250.191)" />
+                <rect x="54.467" y="250.627" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(26.5,56.967,253.127)" />
+                <rect x="60.151" y="253.304" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(23.9,62.651,255.804)" />
+                <rect x="65.948" y="255.725" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(21.4,68.448,258.225)" />
+                <rect x="71.845" y="257.893" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(19,74.345,260.393)" />
+                <rect x="77.829" y="259.812" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(16.6,80.329,262.312)" />
+                <rect x="83.885" y="261.485" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(14.3,86.385,263.985)" />
+                <rect x="90" y="262.916" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(12,92.5,265.416)" />
+                <rect x="96.169" y="264.109" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(9.9,98.669,266.609)" />
+                <rect x="102.381" y="265.069" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(7.7,104.881,267.569)" />
+                <rect x="108.619" y="265.799" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(5.6,111.119,268.299)" />
+                <rect x="108.698" y="56.366" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(172.8,111.198,58.866)" />
+                <rect x="102.484" y="57.246" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(171.1,104.984,59.746)" />
+                <rect x="96.301" y="58.309" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(169.4,98.801,60.809)" />
+                <rect x="90.152" y="59.557" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(167.7,92.652,62.057)" />
+                <rect x="84.041" y="60.992" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(165.9,86.541,63.492)" />
+                <rect x="77.98" y="62.615" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(164.1,80.48,65.115)" />
+                <rect x="71.973" y="64.426" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(162.3,74.473,66.926)" />
+                <rect x="66.027" y="66.428" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(160.5,68.527,68.928)" />
+                <rect x="60.148" y="68.621" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(158.6,62.648,71.121)" />
+                <rect x="54.346" y="71.007" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(156.7,56.846,73.507)" />
+                <rect x="48.624" y="73.586" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(154.8,51.124,76.086)" />
+                <rect x="42.996" y="76.357" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(152.8,45.496,78.857)" />
+                <rect x="37.466" y="79.322" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(150.8,39.966,81.822)" />
+                <rect x="105.408" y="43.811" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(172.5,107.908,46.311)" />
+                <rect x="99.248" y="44.711" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(170.9,101.748,47.211)" />
+                <rect x="93.116" y="45.78" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(169.3,95.616,48.28)" />
+                <rect x="87.017" y="47.02" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(167.7,89.517,49.52)" />
+                <rect x="80.953" y="48.433" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(166.1,83.453,50.933)" />
+                <rect x="74.937" y="50.017" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(164.4,77.437,52.517)" />
+                <rect x="68.965" y="51.777" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(162.7,71.465,54.277)" />
+                <rect x="63.048" y="53.712" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(161,65.548,56.212)" />
+                <rect x="57.192" y="55.822" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(159.3,59.692,58.322)" />
+                <rect x="51.401" y="58.109" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(157.6,53.901,60.609)" />
+                <rect x="45.685" y="60.573" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(155.8,48.185,63.073)" />
+                <rect x="40.05" y="63.212" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(154,42.55,65.712)" />
+                <rect x="34.499" y="66.031" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(152.2,36.999,68.531)" />
+                <rect x="29.041" y="69.027" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(150.3,31.541,71.527)" />
+                <rect x="102.117" y="31.253" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(172.2,104.617,33.753)" />
+                <rect x="96.003" y="32.171" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(170.7,98.503,34.671)" />
+                <rect x="89.914" y="33.246" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(169.2,92.414,35.746)" />
+                <rect x="83.856" y="34.48" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(167.7,86.356,36.98)" />
+                <rect x="77.834" y="35.874" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(166.2,80.334,38.374)" />
+                <rect x="71.854" y="37.427" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(164.7,74.354,39.927)" />
+                <rect x="65.913" y="39.143" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(163.1,68.413,41.643)" />
+                <rect x="60.022" y="41.02" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(161.5,62.522,43.52)" />
+                <rect x="54.189" y="43.059" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(159.9,56.689,45.559)" />
+                <rect x="48.411" y="45.263" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(158.3,50.911,47.763)" />
+                <rect x="42.703" y="47.628" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(156.7,45.203,50.128)" />
+                <rect x="37.061" y="50.159" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(155,39.561,52.659)" />
+                <rect x="31.497" y="52.853" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(153.3,33.997,55.353)" />
+                <rect x="26.015" y="55.711" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(151.6,28.515,58.211)" />
+                <rect x="20.624" y="58.73" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(149.9,23.124,61.23)" />
+                <rect x="282.376" y="50.523" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.2,284.876,53.023)" />
+                <rect x="275.857" y="49.671" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.9,278.357,52.171)" />
+                <rect x="269.327" y="48.899" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-173.6,271.827,51.399)" />
+                <rect x="262.788" y="48.206" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-174.3,265.288,50.706)" />
+                <rect x="256.24" y="47.593" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-175,258.74,50.093)" />
+                <rect x="249.689" y="47.061" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-175.7,252.189,49.561)" />
+                <rect x="243.127" y="46.608" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-176.4,245.627,49.108)" />
+                <rect x="236.563" y="46.235" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-177.1,239.063,48.735)" />
+                <rect x="229.995" y="45.941" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-177.8,232.495,48.441)" />
+                <rect x="223.422" y="45.728" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-178.5,225.922,48.228)" />
+                <rect x="216.847" y="45.595" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-179.2,219.347,48.095)" />
+                <rect x="210.274" y="45.542" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-179.9,212.774,48.042)" />
+                <rect x="203.696" y="45.569" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(179.4,206.196,48.069)" />
+                <rect x="197.122" y="45.676" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(178.7,199.622,48.176)" />
+                <rect x="190.55" y="45.863" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(178,193.05,48.363)" />
+                <rect x="183.979" y="46.129" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(177.3,186.479,48.629)" />
+                <rect x="177.416" y="46.475" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(176.6,179.916,48.975)" />
+                <rect x="170.853" y="46.902" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.9,173.353,49.402)" />
+                <rect x="164.298" y="47.407" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.2,166.798,49.907)" />
+                <rect x="157.746" y="47.993" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(174.5,160.246,50.493)" />
+                <rect x="151.204" y="48.658" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(173.8,153.704,51.158)" />
+                <rect x="144.671" y="49.402" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(173.2,147.171,51.902)" />
+                <rect x="138.149" y="50.226" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(172.5,140.649,52.726)" />
+                <rect x="284.338" y="37.874" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.2,286.838,40.374)" />
+                <rect x="277.943" y="37.037" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.9,280.443,39.537)" />
+                <rect x="271.538" y="36.274" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-173.5,274.038,38.774)" />
+                <rect x="265.123" y="35.586" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-174.2,267.623,38.086)" />
+                <rect x="258.704" y="34.974" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-174.9,261.204,37.474)" />
+                <rect x="252.274" y="34.436" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-175.6,254.774,36.936)" />
+                <rect x="245.842" y="33.973" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-176.2,248.342,36.473)" />
+                <rect x="239.403" y="33.586" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-176.9,241.903,36.086)" />
+                <rect x="232.961" y="33.273" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-177.6,235.461,35.773)" />
+                <rect x="226.514" y="33.036" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-178.2,229.014,35.536)" />
+                <rect x="220.068" y="32.874" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-178.9,222.568,35.374)" />
+                <rect x="213.616" y="32.787" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-179.6,216.116,35.287)" />
+                <rect x="207.167" y="32.776" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(179.8,209.667,35.276)" />
+                <rect x="200.717" y="32.839" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(179.1,203.217,35.339)" />
+                <rect x="194.268" y="32.978" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(178.4,196.768,35.478)" />
+                <rect x="187.821" y="33.192" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(177.8,190.321,35.692)" />
+                <rect x="181.375" y="33.481" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(177.1,183.875,35.981)" />
+                <rect x="174.937" y="33.845" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(176.4,177.437,36.345)" />
+                <rect x="168.502" y="34.284" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.8,171.002,36.784)" />
+                <rect x="162.07" y="34.798" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.1,164.57,37.298)" />
+                <rect x="155.649" y="35.386" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(174.4,158.149,37.886)" />
+                <rect x="149.232" y="36.049" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(173.8,151.732,38.549)" />
+                <rect x="142.823" y="36.787" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(173.1,145.323,39.287)" />
+                <rect x="136.425" y="37.599" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(172.4,138.925,40.099)" />
+                <rect x="286.164" y="25.208" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.2,288.664,27.708)" />
+                <rect x="279.621" y="24.352" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172.9,282.121,26.852)" />
+                <rect x="273.069" y="23.573" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-173.6,275.569,26.073)" />
+                <rect x="266.506" y="22.871" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-174.2,269.006,25.371)" />
+                <rect x="259.939" y="22.245" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-174.9,262.439,24.745)" />
+                <rect x="253.361" y="21.696" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-175.6,255.861,24.196)" />
+                <rect x="246.779" y="21.224" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-176.2,249.279,23.724)" />
+                <rect x="240.192" y="20.829" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-176.9,242.692,23.329)" />
+                <rect x="233.601" y="20.51" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-177.6,236.101,23.01)" />
+                <rect x="227.006" y="20.269" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-178.2,229.506,22.769)" />
+                <rect x="220.407" y="20.104" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-178.9,222.907,22.604)" />
+                <rect x="213.81" y="20.017" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-179.6,216.31,22.517)" />
+                <rect x="207.212" y="20.006" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(179.8,209.712,22.506)" />
+                <rect x="200.61" y="20.072" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(179.1,203.11,22.572)" />
+                <rect x="194.012" y="20.216" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(178.4,196.512,22.716)" />
+                <rect x="187.419" y="20.436" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(177.8,189.919,22.936)" />
+                <rect x="180.825" y="20.733" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(177.1,183.325,23.233)" />
+                <rect x="174.238" y="21.106" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(176.4,176.738,23.606)" />
+                <rect x="167.651" y="21.557" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.8,170.151,24.057)" />
+                <rect x="161.073" y="22.084" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(175.1,163.573,24.584)" />
+                <rect x="154.502" y="22.687" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(174.4,157.002,25.187)" />
+                <rect x="147.94" y="23.366" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(173.8,150.44,25.866)" />
+                <rect x="141.383" y="24.123" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(173.1,143.883,26.623)" />
+                <rect x="134.837" y="24.955" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(172.4,137.337,27.455)" />
+                <rect x="382.651" y="79.35" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-150.3,385.151,81.85)" />
+                <rect x="377.006" y="76.256" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-152.2,379.506,78.756)" />
+                <rect x="371.261" y="73.353" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-154.1,373.761,75.853)" />
+                <rect x="365.426" y="70.643" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-156,367.926,73.143)" />
+                <rect x="359.502" y="68.124" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-157.9,362.002,70.624)" />
+                <rect x="353.5" y="65.796" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-159.7,356,68.296)" />
+                <rect x="347.427" y="63.662" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-161.5,349.927,66.162)" />
+                <rect x="341.291" y="61.72" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-163.3,343.791,64.22)" />
+                <rect x="335.099" y="59.97" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-165.1,337.599,62.47)" />
+                <rect x="328.854" y="58.411" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-166.9,331.354,60.911)" />
+                <rect x="322.565" y="57.042" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-168.6,325.065,59.542)" />
+                <rect x="316.237" y="55.863" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-170.3,318.737,58.363)" />
+                <rect x="309.875" y="54.872" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172,312.375,57.372)" />
+                <rect x="390.656" y="68.989" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-150.1,393.156,71.489)" />
+                <rect x="385.091" y="65.908" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-151.9,387.591,68.408)" />
+                <rect x="379.435" y="63.003" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-153.7,381.935,65.503)" />
+                <rect x="373.69" y="60.272" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-155.4,376.19,62.772)" />
+                <rect x="367.867" y="57.718" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-157.2,370.367,60.218)" />
+                <rect x="361.968" y="55.339" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-158.9,364.468,57.839)" />
+                <rect x="356.004" y="53.138" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-160.6,358.504,55.638)" />
+                <rect x="349.973" y="51.113" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-162.3,352.473,53.613)" />
+                <rect x="343.89" y="49.264" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-163.9,346.39,51.764)" />
+                <rect x="337.753" y="47.59" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-165.6,340.253,50.09)" />
+                <rect x="331.572" y="46.092" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-167.2,334.072,48.592)" />
+                <rect x="325.352" y="44.769" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-168.8,327.852,47.269)" />
+                <rect x="319.097" y="43.619" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-170.4,321.597,46.119)" />
+                <rect x="312.812" y="42.643" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-172,315.312,45.143)" />
+                <rect x="398.655" y="58.627" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-150,401.155,61.127)" />
+                <rect x="393.159" y="55.557" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-151.6,395.659,58.057)" />
+                <rect x="387.58" y="52.65" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-153.3,390.08,55.15)" />
+                <rect x="381.917" y="49.903" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-154.9,384.417,52.403)" />
+                <rect x="376.178" y="47.319" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-156.6,378.678,49.819)" />
+                <rect x="370.369" y="44.898" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-158.2,372.869,47.398)" />
+                <rect x="364.496" y="42.64" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-159.8,366.996,45.14)" />
+                <rect x="358.564" y="40.545" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-161.3,361.064,43.045)" />
+                <rect x="352.575" y="38.612" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-162.9,355.075,41.112)" />
+                <rect x="346.534" y="36.841" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-164.4,349.034,39.341)" />
+                <rect x="340.451" y="35.234" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-166,342.951,37.734)" />
+                <rect x="334.326" y="33.788" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-167.5,336.826,36.288)" />
+                <rect x="328.166" y="32.503" width="5" height="5" rx="0.7" ry="0.7" transform="rotate(-169,330.666,35.003)" />
+                <rect x="321.972" y="31.379" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-170.5,324.472,33.879)" />
+                <rect x="315.755" y="30.415" width="5" height="5" rx="0.8" ry="0.8" transform="rotate(-171.9,318.255,32.915)" />
+                <path style="fill:#000000;fill-opacity:0.1;stroke:#000000" d="M140.55456,156.981366L212.8143,86.072286L283.72339,155.630726L212.13897,225.189166L140.55456,156.981366z" />
+                <path style="fill:#000000;fill-opacity:0.1;stroke:#000000" d="M177.69741,192.098256L247.93118,120.513836L177.69741,192.098256z" />
+                <path style="fill:#000000;fill-opacity:0.1;stroke:#000000" d="M246.58053,191.422936L177.69741,120.513836L246.58053,191.422936z" />
+            </g>
+        </svg>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="js/svg-pan-zoom.js"></script>
+<script src="js/nuSelectable.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
