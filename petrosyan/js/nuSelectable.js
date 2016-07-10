@@ -15,7 +15,8 @@
         onUnSelect: function() {},
         onClear: function() {},
         onSelectionEnd: function() {},
-        selectionButton: 'left'
+        selectionButton: 'left',
+        preserveSelection: false
     };
 
     var nuSelectable = function(container, options) {
@@ -139,7 +140,7 @@
         if (this.options.autoRefresh) {
             this.itemData = this._cacheItemData();
         }
-        if (event.metaKey || event.ctrlKey) {
+        if (event.metaKey || event.ctrlKey || this.options.preserveSelection) {
             this.selecting = false;
         }
         else {
@@ -198,7 +199,7 @@
         this.selecting = false;
         this.selection.remove();
         var offset = getOffset(this.container.offsetParent(), event);
-        if (offset[0] === this.pos[0] && offset[1] === this.pos[1]) {
+        if (!this.options.preserveSelection && offset[0] === this.pos[0] && offset[1] === this.pos[1]) {
             this.clear();
         }
 

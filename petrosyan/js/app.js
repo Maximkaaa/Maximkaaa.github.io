@@ -1,6 +1,6 @@
 jQuery(function ($) {
 
-    $('#wrapper').nuSelectable({
+    var selectable = $('#wrapper').nuSelectable({
         items: 'rect',
         selectionClass: 'selection',
         selectedClass: 'active',
@@ -8,6 +8,14 @@ jQuery(function ($) {
         selectionButton: 'left',
         onSelectionEnd: function(items) {
             console.log(items.length);
+        },
+        preserveSelection: true
+    });
+
+    $(document).on('keydown', function(event) {
+        // Esc key press
+        if (event.which === 27) {
+            selectable.nuSelectable('clear');
         }
     });
 
