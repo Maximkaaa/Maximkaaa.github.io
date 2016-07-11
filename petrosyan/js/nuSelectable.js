@@ -55,6 +55,8 @@
 
         for (var i = 0, item; item = $(this.items[i]), i <
         itemsLength; i++) {
+            if (!$.contains(document.documentElement, item[0])) continue;
+
             itemData.push({
                 element: item,
                 selected: item.hasClass(this.options.selectedClass),
@@ -66,7 +68,7 @@
     };
 
     nuSelectable.prototype._collisionDetector = function() {
-        if (!this.selection.is(':visible')) return;
+        if (!$.contains(document.documentElement, this.selection[0])) return;
         var selector = this.selection[0].getBoundingClientRect(),
             dataLength = this.itemData.length;
 
