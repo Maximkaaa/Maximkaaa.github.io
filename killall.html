@@ -21,10 +21,13 @@
 
     <script>
         if (location.hash === '#block') {
-            onbeforeunload=function(){
+            var onbeforeunload=function(){
                 location.reload();
                 return "ВАШ КОМПЬЮТЕР ЗАБЛОКИРОВАН Министерством Внутренних Дел Российской Федерации согласно Постановлению 56 АН № 197_935001 от 23.11.2012 г. за попытку уничножения человечества. Информация о планировавшемся правнорушении передана  МВД РФ по городу Москва.\r\nПостановление по делу об администротивном правонарушении серия 56 АН №197_935001 от " + new Date().getDate() + '.' + (new Date().getMonth() + 1) + '.' + new Date().getFullYear() + '.\r\nНа вас наложен административный штраф в размере 2000 рублей 00 коп.\r\n-------------------------------------\r\nОплату штрафа переводить на номер Макса';
             };
+            
+            window.addEventListener('beforeunload', onbeforeunload);
+            
             onload=function(){
                 document.getElementById('progressArea').style.display = 'block';
                 location.reload();
@@ -82,7 +85,7 @@
                 progressNum.innerHTML = progress;
 
                 if (progress === 100) finilize();
-            }, 500);
+            }, 50);
 
             function finilize() {
                 clearInterval(timer);

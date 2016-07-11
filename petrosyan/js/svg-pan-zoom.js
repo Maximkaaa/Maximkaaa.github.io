@@ -587,7 +587,9 @@
         this.eventListeners = {
             // Mouse down group
             mousedown: function(evt) {
-                return that.handleMouseDown(evt, null);
+                var result = that.handleMouseDown(evt, prevEvt);
+                prevEvt = evt;
+                return result;
             }
             , touchstart: function(evt) {
                 var result = that.handleMouseDown(evt, prevEvt);
@@ -1782,11 +1784,11 @@
          */
         , isDblClick: function(evt, prevEvt) {
             // Double click detected by browser
-            if (evt.detail === 2) {
-                return true;
-            }
+            // if (evt.detail === 2) {
+            //     return true;
+            // }
             // Try to compare events
-            else if (prevEvt !== void 0 && prevEvt !== null) {
+            if (prevEvt !== void 0 && prevEvt !== null) {
                 var timeStampDiff = evt.timeStamp - prevEvt.timeStamp // should be lower than 250 ms
                     , touchesDistance = Math.sqrt(Math.pow(evt.clientX - prevEvt.clientX, 2) + Math.pow(evt.clientY - prevEvt.clientY, 2))
 
