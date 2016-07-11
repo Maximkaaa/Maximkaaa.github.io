@@ -16,7 +16,7 @@
         onClear: function() {},
         onSelectionEnd: function() {},
         selectionButton: 'left',
-        preserveSelection: false
+        preserveSelection: true
     };
 
     var nuSelectable = function(container, options) {
@@ -66,6 +66,7 @@
     };
 
     nuSelectable.prototype._collisionDetector = function() {
+        if (!this.selection.is(':visible')) return;
         var selector = this.selection[0].getBoundingClientRect(),
             dataLength = this.itemData.length;
 
@@ -78,20 +79,25 @@
             selector.top > item.position.bottom);
 
             if (collided) {
-                if (item.selected) {
-                    item.element.removeClass(this.options.selectedClass);
-                    item.selected = false;
-                }
-                if (!item.selected) {
+                // if (item.selected) {
+                //     item.element.removeClass(this.options.selectedClass);
+                //     item.selected = false;
+                // }
+                if (!item.selected && !item.selecting) {
                     item.element.addClass(this.options.selectedClass);
-                    item.selected = true;
+                    if (this.selecting) {
+                        item.selected = true;
+                    } else {
+                        item.selecting = true;
+                    }
                     this.options.onSelect(item.element);
                 }
             }
             else {
-                if (this.selecting) {
+                if (this.selecting || item.selecting) {
                     item.element.removeClass(this.options.selectedClass);
                     item.selected = false;
+                    item.selecting = false;
                     this.options.onUnSelect(item.element);
                 }
             }
@@ -207,6 +213,13 @@
     };
     
     nuSelectable.prototype._handleSelectionEnd = function() {
+        this.itemData.forEach(function(item) {
+            if (item.selecting) {
+                item.selected = true;
+                item.selecting = false;
+            }
+        });
+
         var selected = this.itemData.filter(function(item) { return item.selected; }).map(function(item) { return item.element; });
         if (typeof this.options.onSelectionEnd === 'function') this.options.onSelectionEnd(selected); 
     };
