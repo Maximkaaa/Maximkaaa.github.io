@@ -268,7 +268,7 @@
         return this.each(function() {
             var item = $(this),
                 instance = item.data(plugin);
-            if (!instance) {
+            if (!instance && options && options.items) {
                 item.data(plugin, new nuSelectable(this, options));
             }
             else {
