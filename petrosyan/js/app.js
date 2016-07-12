@@ -14,8 +14,14 @@ jQuery(function ($) {
 
     $(document).on('keydown', function(event) {
         // Esc key press
-        if (event.which === 27) {
-            selectable.nuSelectable('clear');
+        if (event.which === 23) {
+            selectable.nuSelectable('disable');
+        } else if (event.which === 8) { // backspace
+            selectable.nuSelectable('disable');
+        } else if (event.which === 13) { // enter
+            selectable.nuSelectable('enable');
+        } else if (event.which === 46) { //delete
+            selectable.nuSelectable('destroy');
         }
     });
 

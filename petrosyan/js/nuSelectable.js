@@ -227,15 +227,39 @@
     };
 
     nuSelectable.prototype._bindEvents = function() {
-        this.container.on('mousedown', $.proxy(this._mouseDown, this));
-        this.container.on('mousemove', $.proxy(this._mouseMove, this));
+        if (this._isBound) return;
+        
+        this.container.on('mousedown.nuSelectable', $.proxy(this._mouseDown, this));
+        this.container.on('mousemove.nuSelectable', $.proxy(this._mouseMove, this));
         // Binding to document is 'safer' than the container for mouse up
         $(document)
-            .on('mouseup', $.proxy(this._mouseUp, this));
+            .on('mouseup.nuSelectable', $.proxy(this._mouseUp, this));
 
-        if (this.options.selectionButton === 'right') this.container.on('contextmenu', function(event) {
+        if (this.options.selectionButton === 'right') this.container.on('contextmenu.nuSelectable', function(event) {
             event.preventDefault();
         });
+        
+        this._isBound = true;
+    };
+    
+    nuSelectable.prototype._unbindEvents = function() {
+        this.container.off('.nuSelectable');
+        $(document).off('.nuSelectable');
+        this._isBound = false;
+    };
+
+    nuSelectable.prototype.enable = function() {
+        this._bindEvents();
+    };
+
+    nuSelectable.prototype.disable = function() {
+        this._unbindEvents();
+    };
+
+    nuSelectable.prototype.destroy = function() {
+        this.disable();
+        this.clear();
+        this.container.removeData(plugin);
     };
 
     $.fn[plugin] = function(options) {
