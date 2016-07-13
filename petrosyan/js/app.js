@@ -6,6 +6,7 @@ jQuery(function ($) {
         selectedClass: 'active',
         autoRefresh: true,
         selectionButton: 'left',
+        enabled: false,
         onSelectionEnd: function(items) {
             console.log(items.length);
         },

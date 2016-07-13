@@ -11,12 +11,13 @@
     var plugin = 'nuSelectable';
 
     var defaults = {
+        enabled: true,
         onSelect: function() {},
         onUnSelect: function() {},
         onClear: function() {},
         onSelectionEnd: function() {},
         selectionButton: 'left',
-        preserveSelection: true
+        preserveSelection: false
     };
 
     var nuSelectable = function(container, options) {
@@ -34,7 +35,11 @@
         }
         this.selecting = false;
         this._normalizeContainer();
-        this._bindEvents();
+        
+        if (this.options.enabled) {
+            this._bindEvents();
+        }
+        
         return true;
     };
 
@@ -272,7 +277,6 @@
                 item.data(plugin, new nuSelectable(this, options));
             }
             else {
-
                 if (typeof options === 'string' && options[0] !== '_' &&
                     options !== 'init') {
                     instance[options].apply(instance, args);
