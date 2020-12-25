@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Name generator</title>
+
+    <script>
+        let patterns = [
+            "vcv",
+            "cvc",
+            "vvcv",
+            "vcvv",
+            "vcvc",
+            "vccv",
+            "cvvc",
+            "cvcv",
+            "cvcc",
+            "ccvc",
+            "vvcvc",
+            "vcvvc",
+            "vcvcv",
+            "vcvcc",
+            "vccvc",
+            "cvvcv",
+            "cvcvv",
+            "cvcvc",
+            "cvccv",
+            "ccvcv",
+        ];
+
+        let consonants = [
+            "b",
+            "d",
+            "f",
+            "g",
+            "h",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "p",
+            "r",
+            "s",
+            "t",
+            "v",
+            "w",
+            "y",
+            "z",
+            "ch",
+            "zh",
+        ];
+
+        let vowels = [
+            "a",
+            "e",
+            "i",
+            "o",
+            "u",
+            "ă",
+            "ĕ",
+            "ī",
+            "ō",
+            "ū",
+            "oo",
+            "ōō",
+            "ow",
+            "oy",
+            "ar",
+            "ăr",
+            "ir",
+            "or",
+            "ur",
+            ""
+        ];
+
+        function generate() {
+            let pattern = patterns[Math.floor(Math.random() * 20)];
+            let name = "";
+            for (let c in pattern) {
+                let table = pattern[c] === "c" ? consonants : vowels;
+                let char = table[Math.floor(Math.random() * 20)];
+
+                name += char;
+            }
+
+            document.getElementById("result").innerText = name;
+        }
+    </script>
+</head>
+<body style="text-align: center;">
+    <p>
+        <button onclick="generate()">Generate a new name</button>
+    </p>
+    <p id="result" style="font-size: large; font-weight: bold;"></p>
+    <p>How to interpret:</p>
+    <img src="meaning.jpg" width="600">
+</body>
+</html>
