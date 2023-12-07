@@ -1,0 +1,11 @@
+{
+  "name": "vector_tiles_example",
+  "version": "0.1.0",
+  "files": [
+    "vector_tiles_example_bg.wasm",
+    "vector_tiles_example.js",
+    "vector_tiles_example.d.ts"
+  ],
+  "browser": "vector_tiles_example.js",
+  "types": "vector_tiles_example.d.ts"
+}
