@@ -81,9 +81,9 @@ declare interface InitOutput {
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1f2d762d1542bb49: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h518b6ae22033affb: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A_B___Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hd43f6966fd814180: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke0_mut__hf7ebc2bcd42cc917: (a: number, b: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke1_mut__h3d445717c253a147: (a: number, b: number, c: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h53c47e6dd279ad4e: (a: number, b: number, c: number, d: number) => void;
   readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha7513ecb7329ef4b: (a: number, b: number) => void;
   readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h23f3873bd493ac57: (a: number, b: number, c: number) => void;
   readonly wasm_bindgen__convert__closures__invoke1_mut__habfbe51a557b4aca: (a: number, b: number, c: number) => void;
