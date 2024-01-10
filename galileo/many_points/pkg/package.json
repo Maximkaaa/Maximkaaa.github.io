@@ -1,0 +1,11 @@
+{
+  "name": "many_points",
+  "version": "0.1.0",
+  "files": [
+    "many_points_bg.wasm",
+    "many_points.js",
+    "many_points.d.ts"
+  ],
+  "browser": "many_points.js",
+  "types": "many_points.d.ts"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "raster_tiles",
+  "version": "0.1.0",
+  "files": [
+    "raster_tiles_bg.wasm",
+    "raster_tiles.js",
+    "raster_tiles.d.ts"
+  ],
+  "browser": "raster_tiles.js",
+  "types": "raster_tiles.d.ts"
+}

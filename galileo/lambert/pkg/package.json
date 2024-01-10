@@ -1,0 +1,11 @@
+{
+  "name": "lambert",
+  "version": "0.1.0",
+  "files": [
+    "lambert_bg.wasm",
+    "lambert.js",
+    "lambert.d.ts"
+  ],
+  "browser": "lambert.js",
+  "types": "lambert.d.ts"
+}

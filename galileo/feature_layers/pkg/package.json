@@ -1,0 +1,11 @@
+{
+  "name": "feature_layers",
+  "version": "0.1.0",
+  "files": [
+    "feature_layers_bg.wasm",
+    "feature_layers.js",
+    "feature_layers.d.ts"
+  ],
+  "browser": "feature_layers.js",
+  "types": "feature_layers.d.ts"
+}
