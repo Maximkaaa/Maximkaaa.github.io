@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Galileo</title>
+    <link>https://example.org/</link>
+    <description>Recent content on Galileo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 15 Feb 2024 00:56:57 +0300</lastBuildDate>
+    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Release V0.1</title>
+      <link>https://example.org/posts/release_v0.1/</link>
+      <pubDate>Thu, 15 Feb 2024 00:56:57 +0300</pubDate>
+      <guid>https://example.org/posts/release_v0.1/</guid>
+      <description>We are happy to announce, that Galileo v0.1.0 is finally released and published on crates.io.&#xA;Repository: https://github.com/Maximkaaa/galileo&#xA;What is Galileo Galileo is a free cross-platform general purpose map rendering engine. It is designed to be&#xA;highly performant - it allows rendering millions of objects on the map without FPS drops flexible - to let you configure looks and works of you map according to your needs portable - you can share code between web, mobile, desktop and server applications to ensure high productivity and consistent rendering across different platforms It is written in Rust and can be compiled to all major platforms.</description>
+    </item>
+  </channel>
+</rss>
