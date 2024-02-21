@@ -9,7 +9,7 @@
     <meta name="description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
 What we want to achieve A full-fledged text rendering for a mapping engine would include:
 labels attached to a geographic point with fixed screen size">
-    <meta name="generator" content="Hugo 0.123.0">
+    <meta name="generator" content="Hugo 0.123.1">
     
     
     
@@ -49,7 +49,7 @@ labels attached to a geographic point with fixed screen size" />
 What we want to achieve A full-fledged text rendering for a mapping engine would include:
 labels attached to a geographic point with fixed screen size"><meta itemprop="datePublished" content="2024-02-21T06:37:45+03:00" />
 <meta itemprop="dateModified" content="2024-02-21T06:37:45+03:00" />
-<meta itemprop="wordCount" content="1450">
+<meta itemprop="wordCount" content="1451">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Text labels rendering on a map with Rust - research and design"/>
 <meta name="twitter:description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
 What we want to achieve A full-fledged text rendering for a mapping engine would include:
@@ -160,7 +160,8 @@ action vector.</p>
 <li>render with 60 FPS with any reasonable amount of data (although pre-rendering may take more time since we can do it
 in a background thread or in a web worker)</li>
 </ul>
-<h1 id="font-discovery">Font discovery</h1>
+<h1 id="text-rendering-process">Text rendering process</h1>
+<h2 id="1-font-discovery">1. Font discovery</h2>
 <p>For the engine to be able to draw a text, it must first load a font. And to do that, it must know where the font file
 is located and how to get it. There are a few crates that can help locate system fonts in cross-platform manner:</p>
 <ul>
@@ -181,8 +182,7 @@ font from the application layer instead of using its own discovery method.</p>
 <p>This doesn&rsquo;t work on the web though, as Galileo won&rsquo;t have access to the fonts the application uses (except through
 Local Font Access). So for web the only viable option is for the application to configure available font list in advance,
 or make Galileo font agnostic using Canvas rendering.</p>
-<h1 id="text-rendering-process">Text rendering process</h1>
-<h2 id="1-font-loading">1. Font loading</h2>
+<h2 id="2-font-loading">2. Font loading</h2>
 <p>Loading a font on non-web platforms is straightforward. We can read a file found in discovery stage or load a font from
 raw byte data provided by the application, and parse it with tools provided by shaping libraries we choose.</p>
 <p>On the web, the application or Galileo itself can load font data from an url, as there&rsquo;s no access to either system
@@ -200,7 +200,7 @@ if it&rsquo;s possible to extract tables needed for shaping from a font file and
 <li><a href="https://github.com/RazrFalcon/ttf-parser">ttf-parser</a> - used by <code>rustybuzz</code></li>
 <li><a href="https://github.com/dfrg/swash">swash</a> also uses its own loader</li>
 </ul>
-<h2 id="2-font-selection-and-fallback">2. Font selection and fallback</h2>
+<h2 id="3-font-selection-and-fallback">3. Font selection and fallback</h2>
 <p>There are no font files that contain glyphs for all unicode symbols (such font is impossible due to how specifications
 are written, but even if it would be possible, such font would be very, very heavy). Also, each font family usually
 contains different font files (faces) for different styles, like bold, thin, italic etc. So when an application
@@ -217,7 +217,7 @@ and contain all needed scripts and parameters.</p>
 <li><a href="https://github.com/servo/font-kit">font-kit</a> implement CSS-style font selection and fallback (not available for web)</li>
 <li><a href="https://github.com/pop-os/cosmic-text">cosmic-text</a> has font fallback logic for desktop platforms</li>
 </ul>
-<h2 id="3-text-shaping">3. Text shaping</h2>
+<h2 id="4-text-shaping">4. Text shaping</h2>
 <p>To correctly transform a unicode string into a set of glyphs to render, the text must be <em>shaped</em>. This step is
 important for some complex scripts that use ligatures and can change how symbols are written based on what surrounds
 them.</p>
@@ -236,7 +236,7 @@ common cases and can be easily built to any platform.</li>
 <li><a href="https://github.com/dfrg/swash">Swash</a> less tested and feature-full than <code>RustyBuzz</code> but still viable solution.
 The development was not very active for the last couple of years though.</li>
 </ul>
-<h2 id="4-glyph-rasterization">4. Glyph rasterization</h2>
+<h2 id="5-glyph-rasterization">5. Glyph rasterization</h2>
 <p>After all the above is done, glyphs can be finally rendered. There is a caveat here also - to render small font sizes
 on low DPI screens <a href="https://en.m.wikipedia.org/wiki/Font_hinting">font hinting</a> should be used, otherwise the characters
 would look poor.</p>
