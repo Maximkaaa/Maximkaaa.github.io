@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Galileo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Feb 2024 00:56:57 +0300</lastBuildDate>
+    <lastBuildDate>Wed, 21 Feb 2024 06:37:45 +0300</lastBuildDate>
     <atom:link href="https://maximkaaa.github.io/galileo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Text labels rendering on a map with Rust - research and design</title>
+      <link>https://maximkaaa.github.io/galileo/blog/posts/text_rendering_design/</link>
+      <pubDate>Wed, 21 Feb 2024 06:37:45 +0300</pubDate>
+      <guid>https://maximkaaa.github.io/galileo/blog/posts/text_rendering_design/</guid>
+      <description>For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.&#xA;What we want to achieve A full-fledged text rendering for a mapping engine would include:&#xA;labels attached to a geographic point with fixed screen size</description>
+    </item>
     <item>
       <title>Release V0.1</title>
       <link>https://maximkaaa.github.io/galileo/blog/posts/release_v0.1/</link>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Text labels rendering on a map with Rust - research and design | Galileo</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
+What we want to achieve A full-fledged text rendering for a mapping engine would include:
+labels attached to a geographic point with fixed screen size">
+    <meta name="generator" content="Hugo 0.123.0">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/galileo/blog/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://maximkaaa.github.io/galileo/blog/posts/text_rendering_design/">
+    
+
+    <meta property="og:title" content="Text labels rendering on a map with Rust - research and design" />
+<meta property="og:description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
+What we want to achieve A full-fledged text rendering for a mapping engine would include:
+labels attached to a geographic point with fixed screen size" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maximkaaa.github.io/galileo/blog/posts/text_rendering_design/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-21T06:37:45+03:00" />
+<meta property="article:modified_time" content="2024-02-21T06:37:45+03:00" />
+
+<meta itemprop="name" content="Text labels rendering on a map with Rust - research and design">
+<meta itemprop="description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
+What we want to achieve A full-fledged text rendering for a mapping engine would include:
+labels attached to a geographic point with fixed screen size"><meta itemprop="datePublished" content="2024-02-21T06:37:45+03:00" />
+<meta itemprop="dateModified" content="2024-02-21T06:37:45+03:00" />
+<meta itemprop="wordCount" content="1450">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Text labels rendering on a map with Rust - research and design"/>
+<meta name="twitter:description" content="For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed action vector.
+What we want to achieve A full-fledged text rendering for a mapping engine would include:
+labels attached to a geographic point with fixed screen size"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  <header class="cover bg-top" style="background-image: url('/galileo/blog/posts/text_rendering_design/map_labels.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/galileo/blog/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Galileo
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Text labels rendering on a map with Rust - research and design</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Text labels rendering on a map with Rust - research and design</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-02-21T06:37:45+03:00">February 21, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>For the last week I have been researching problems and possible solutions for text rendering in Galileo. There is quite
+a lot to consider, so I have decided to summarize my findings to bring some clarity to all the parts of the proposed
+action vector.</p>
+<h1 id="what-we-want-to-achieve">What we want to achieve</h1>
+<p>A full-fledged text rendering for a mapping engine would include:</p>
+<ul>
+<li>
+<p>labels attached to a geographic point with fixed screen size</p>
+<p><img src="./point_label.gif" alt="Point label"></p>
+</li>
+<li>
+<p>labels drawn along a path</p>
+<p><img src="./line_label.gif" alt="Line label"></p>
+</li>
+<li>
+<p>labels attached to the map surface (optional, but would be nice to have)</p>
+<p><img src="./map_labels.png" alt="Map label"></p>
+</li>
+</ul>
+<p>All of these must:</p>
+<ul>
+<li>render correctly any Unicode string</li>
+<li>allow the application to choose font and font parameters</li>
+<li>work on Desktop, Mobile and Web platforms</li>
+<li>render with 60 FPS with any reasonable amount of data (although pre-rendering may take more time since we can do it
+in a background thread or in a web worker)</li>
+</ul>
+<h1 id="font-discovery">Font discovery</h1>
+<p>For the engine to be able to draw a text, it must first load a font. And to do that, it must know where the font file
+is located and how to get it. There are a few crates that can help locate system fonts in cross-platform manner:</p>
+<ul>
+<li><a href="https://github.com/servo/font-kit">font-kit</a> - used by <code>servo</code>, works for desktop and mobile platforms. Uses system
+libraries to locate fonts, so the result is probably the best for the supported platforms. Allows
+font queries (CSS compatible).</li>
+<li><a href="https://github.com/matprec/rust-font-loader">font-loader</a> - locates fonts on desktop platforms in predefined
+directories. No queries.</li>
+<li><a href="https://github.com/RazrFalcon/fontdb">fontdb</a> - used by <code>cosmic-text</code>, readme states that it locates fonts in
+predefined directories and does not interact with system API, but source code seems to use <code>fontconfig</code> for Unix-like
+systems. Allows css-like queries.</li>
+</ul>
+<p>In case of web, the only way to locate available fonts is to use experimental <a href="https://developer.mozilla.org/en-US/docs/Web/API/Local_Font_Access_API">Local Font Access API</a>,
+but it is supported only by Edge and desktop Chrome.</p>
+<p>Another consideration with font discovery is that Galileo is supposed to be used as a part of a bigger application,
+that already uses some way of font discovery for its own use. So we want to have a way for Galileo to request a needed
+font from the application layer instead of using its own discovery method.</p>
+<p>This doesn&rsquo;t work on the web though, as Galileo won&rsquo;t have access to the fonts the application uses (except through
+Local Font Access). So for web the only viable option is for the application to configure available font list in advance,
+or make Galileo font agnostic using Canvas rendering.</p>
+<h1 id="text-rendering-process">Text rendering process</h1>
+<h2 id="1-font-loading">1. Font loading</h2>
+<p>Loading a font on non-web platforms is straightforward. We can read a file found in discovery stage or load a font from
+raw byte data provided by the application, and parse it with tools provided by shaping libraries we choose.</p>
+<p>On the web, the application or Galileo itself can load font data from an url, as there&rsquo;s no access to either system
+fonts or fonts loaded through CSS. The problem here is that a full set of fonts to render all major script types
+(languages) can take tens of MB, which is quite heavy for a web application.</p>
+<p>The approach that MapboxGL (and consequently MapLibre) took is to not load fonts as is, but to request glyph sets from
+a web service. This way only glyphs that are actually needed for currently displayed area of the map can be loaded.
+This approach on the other hand doesn&rsquo;t allow text shaping, as it requires actual font tables to be loaded. I am not sure
+if it&rsquo;s possible to extract tables needed for shaping from a font file and load only them without heavy glyph data.</p>
+<p>Another solution would be not to load fonts at all if we use Canvas for glyph rendering, but this has its own problems
+(see below).</p>
+<p>Libraries that can be used for loading of font data:</p>
+<ul>
+<li><a href="https://harfbuzz.github.io/index.html">HarfBuzz</a> has built in font loader (C++)</li>
+<li><a href="https://github.com/RazrFalcon/ttf-parser">ttf-parser</a> - used by <code>rustybuzz</code></li>
+<li><a href="https://github.com/dfrg/swash">swash</a> also uses its own loader</li>
+</ul>
+<h2 id="2-font-selection-and-fallback">2. Font selection and fallback</h2>
+<p>There are no font files that contain glyphs for all unicode symbols (such font is impossible due to how specifications
+are written, but even if it would be possible, such font would be very, very heavy). Also, each font family usually
+contains different font files (faces) for different styles, like bold, thin, italic etc. So when an application
+requests a label to be rendered, we must consider:</p>
+<ul>
+<li>font family (e.g. &ldquo;Noto Sans&rdquo;)</li>
+<li>font style (&ldquo;regular&rdquo;, &ldquo;bold&rdquo;, etc.)</li>
+<li>script and language of the text in label (if different scripts are used in the same label, we need to separate it into blocks)</li>
+</ul>
+<p>Taking all these into account, the library can select an appropriate font face among the available ones.</p>
+<p>If no exact match found, the usual approach is to select a default fallback font, which is expected to be available
+and contain all needed scripts and parameters.</p>
+<ul>
+<li><a href="https://github.com/servo/font-kit">font-kit</a> implement CSS-style font selection and fallback (not available for web)</li>
+<li><a href="https://github.com/pop-os/cosmic-text">cosmic-text</a> has font fallback logic for desktop platforms</li>
+</ul>
+<h2 id="3-text-shaping">3. Text shaping</h2>
+<p>To correctly transform a unicode string into a set of glyphs to render, the text must be <em>shaped</em>. This step is
+important for some complex scripts that use ligatures and can change how symbols are written based on what surrounds
+them.</p>
+<p>Here is an example for devanagari script:</p>
+<table>
+<tr><td>Without shaping:</td><td><img alt="Incorrect" src="./lalitpur.png" width="200"></td></tr>
+<tr><td>With shaping:</td><td><img alt="Correct" src="./lalitpur_corr.png" width="200"></td></tr>
+</table>
+<p>Libraries that implement shaping:</p>
+<ul>
+<li><a href="https://harfbuzz.github.io/index.html">HarfBuzz</a> is the golden standard for text shaping. It used by all major
+browsers and most UI frameworks. There are <a href="https://github.com/servo/rust-harfbuzz">rust bindings</a> for it. It can be
+compiled to WASM in theory but this way is not for the faint of heart.</li>
+<li><a href="">RustyBuzz</a> is a port of HurfBuzz up to version 4.01 (current HarfBuzz is 8.x). Nevertheless, it supports most of the
+common cases and can be easily built to any platform.</li>
+<li><a href="https://github.com/dfrg/swash">Swash</a> less tested and feature-full than <code>RustyBuzz</code> but still viable solution.
+The development was not very active for the last couple of years though.</li>
+</ul>
+<h2 id="4-glyph-rasterization">4. Glyph rasterization</h2>
+<p>After all the above is done, glyphs can be finally rendered. There is a caveat here also - to render small font sizes
+on low DPI screens <a href="https://en.m.wikipedia.org/wiki/Font_hinting">font hinting</a> should be used, otherwise the characters
+would look poor.</p>
+<ul>
+<li>C++ world uses <code>FreeType</code> library together with <code>HarfBuzz</code> shaping to rasterize glyphs using hinting.</li>
+<li>Rust world has only <code>Swash</code> at this time.</li>
+<li>Mac users live happily without font hinting as their screens are high DPI.</li>
+</ul>
+<h2 id="note">Note</h2>
+<p>We are not concerned at the moment with:</p>
+<ul>
+<li>text layout (e.g. line breaks, paragraphs etc.) as most labels on a map are one-line short labels. We can support
+manual line breaks with <code>\n</code> symbol and text alignment, and that should be enough for a while</li>
+<li>glyph caching - it can increase performance significantly, but it can be implemented almost independently later</li>
+</ul>
+<h1 id="possible-implementations">Possible implementations</h1>
+<h2 id="using-cosmic-text">Using <code>cosmic-text</code></h2>
+<p>Pros:</p>
+<ul>
+<li>font discovery with <code>fontdb</code>, shaping with <code>rustybuzz</code>, rasterization with <code>swash</code> out of the box</li>
+<li>provides access to <code>rustybuzz</code> face to outline for tessellation, so attaching labels to the map surface would also
+look good</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Loads all system fonts into <code>fontdb</code> at startup, which can take a while (up to a second according to the docs).
+Applications already using <code>cosmic-text</code> (or <code>fontdb</code>) can provide already built DB, bot for others this can be a
+downside. On the other hand, we probably can disable system fonts loading and tell the db which fonts to load.</li>
+<li>Wasm would require loading a full font set for a map, which is a lot.</li>
+<li>Makes the compiled bundle much bigger, which can be bad for WASM (and to some extent for Mobile)</li>
+</ul>
+<h2 id="using-canvas-rendering">Using Canvas rendering</h2>
+<p>This is only for web. The approach is to render separate words using Canvas 2d API, and then use rendered image
+as a texture for label.</p>
+<ul>
+<li>Uses the whole power of <code>harfbuzz</code> and <code>freetype</code> under the hood, with browser font access and fallback, so everything
+will be rendered correctly.</li>
+<li>Lightweight</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Text must be rendered word by word to produce correct shaping result. Because of that, a label along a path
+would turn only at word end, not at glyph end.</li>
+<li>Might be slow due to interop between WASM and JS worlds.</li>
+<li>Cannot produce tessellation, so a label attached to the map surface might look poor</li>
+</ul>
+<p>It seems that this is the approach taken by Google Maps for their labels. But for them, it might be faster because they
+don&rsquo;t send images to WASM.</p>
+<h2 id="using-harfbuzz-and-freetype">Using <code>harfbuzz</code> and <code>freetype</code></h2>
+<p>Pros:</p>
+<ul>
+<li>would produce the best result</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Building C++</li>
+<li>Building for WASM might be a challenge</li>
+</ul>
+<h1 id="conclusion">Conclusion</h1>
+<p>Overall, the approach I&rsquo;m inclined for is to first implement this using <code>cosmic-text</code>, as this will work on all platforms.
+But while implementing it, leave possibility to add other implementations later (feature-gated), notable Canvas-based
+one to use for web when loading 10s of MB is not good.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://maximkaaa.github.io/galileo/blog/" >
+    &copy;  Galileo 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
