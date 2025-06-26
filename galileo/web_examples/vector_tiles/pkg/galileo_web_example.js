@@ -286,11 +286,11 @@ let wasm_bindgen;
     }
 
     function __wbg_adapter_48(arg0, arg1, arg2) {
-        wasm.closure587_externref_shim(arg0, arg1, arg2);
+        wasm.closure633_externref_shim(arg0, arg1, arg2);
     }
 
     function __wbg_adapter_51(arg0, arg1, arg2) {
-        wasm.closure2819_externref_shim(arg0, arg1, arg2);
+        wasm.closure2821_externref_shim(arg0, arg1, arg2);
     }
 
     const __wbindgen_enum_GpuAddressMode = ["clamp-to-edge", "repeat", "mirror-repeat"];
@@ -3094,12 +3094,12 @@ let wasm_bindgen;
             const ret = makeMutClosure(arg0, arg1, 316, __wbg_adapter_40);
             return ret;
         };
-        imports.wbg.__wbindgen_closure_wrapper2163 = function(arg0, arg1, arg2) {
-            const ret = makeMutClosure(arg0, arg1, 588, __wbg_adapter_48);
+        imports.wbg.__wbindgen_closure_wrapper2386 = function(arg0, arg1, arg2) {
+            const ret = makeMutClosure(arg0, arg1, 634, __wbg_adapter_48);
             return ret;
         };
-        imports.wbg.__wbindgen_closure_wrapper9843 = function(arg0, arg1, arg2) {
-            const ret = makeMutClosure(arg0, arg1, 2820, __wbg_adapter_51);
+        imports.wbg.__wbindgen_closure_wrapper9848 = function(arg0, arg1, arg2) {
+            const ret = makeMutClosure(arg0, arg1, 2822, __wbg_adapter_51);
             return ret;
         };
         imports.wbg.__wbindgen_debug_string = function(arg0, arg1) {
