@@ -1,0 +1,24 @@
+{
+  "name": "galileo-web-example",
+  "collaborators": [
+    "Maxim Gritsenko <maxim@gritsenko.biz>"
+  ],
+  "version": "0.1.1",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maximkaaa/galileo"
+  },
+  "files": [
+    "galileo_web_example_bg.wasm",
+    "galileo_web_example.js",
+    "galileo_web_example.d.ts"
+  ],
+  "browser": "galileo_web_example.js",
+  "types": "galileo_web_example.d.ts",
+  "keywords": [
+    "gis",
+    "map",
+    "rendering"
+  ]
+}
