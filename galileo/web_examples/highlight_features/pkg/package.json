@@ -3,7 +3,8 @@
   "collaborators": [
     "Maxim Gritsenko <maxim@gritsenko.biz>"
   ],
-  "version": "0.1.1",
+  "description": "Browser examples for Galileo",
+  "version": "0.2.1",
   "license": "MIT OR Apache-2.0",
   "repository": {
     "type": "git",
